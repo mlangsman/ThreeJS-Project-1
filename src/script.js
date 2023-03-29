@@ -22,7 +22,7 @@ cube2.position.set(1.5,0,0)
 group.add(cube2)
 
 const cube3 = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
+    new THREE.BoxGeometry(0.5,1,1),
     new THREE.MeshBasicMaterial({ color: 0x0000ff })
 )
 cube3.position.set(0,0,0)
