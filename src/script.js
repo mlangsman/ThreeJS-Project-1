@@ -54,7 +54,19 @@ const renderer = new THREE.WebGLRenderer({
 //camera.lookAt(new THREE.Vector3(0,-1,0))
 
 renderer.setSize(sizes.width, sizes.height)
-renderer.render(scene, camera)
 
-console.log('distance: ' + mesh.position.distanceTo(camera.position))
+const tick = () => {
+
+    // Rotate the group of cubes
+    group.rotation.y += 0.01
+
+    // Render the scene
+    renderer.render(scene, camera)
+
+    // Call again on next frame
+    window.requestAnimationFrame(tick)
+}
+
+tick()
+
 
