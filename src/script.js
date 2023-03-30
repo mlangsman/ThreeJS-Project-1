@@ -63,6 +63,9 @@ const tick = () => {
 
     // Rotate the group of cubes
     group.rotation.y = elapsedTime
+    group.position.y = Math.cos(elapsedTime) * 0.5
+    group.position.x = Math.sin(elapsedTime) * 0.5
+    group.position.z = Math.sin(elapsedTime) * 0.5 -1
 
     // Render the scene
     renderer.render(scene, camera)
