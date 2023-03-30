@@ -55,10 +55,18 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height)
 
+let time = Date.now()
+
 const tick = () => {
 
+    const currentTime = Date.now()
+    const deltaTime = currentTime - time
+    time = currentTime
+
     // Rotate the group of cubes
-    group.rotation.y += 0.01
+    group.rotation.y += 0.01 * deltaTime * 0.2
+
+
 
     // Render the scene
     renderer.render(scene, camera)
