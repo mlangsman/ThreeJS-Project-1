@@ -1,44 +1,95 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import * as dat from 'lil-gui'
+
+// Debug
+const gui = new dat.GUI()
+
+const parameters = {
+    color: 0xff0000,
+    spin: () => {
+        gsap.to(cube2.rotation, { duration: 1, y: cube2.rotation.y + Math.PI * 2 })
+        gsap.to(cube1.rotation, { duration: 1, y: cube1.rotation.y - Math.PI * 2 })
+    }
+}
+
 
 console.log(OrbitControls)
 
 const group = new THREE.Group()
+gui.add(group.position, 'y')
+
 const scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(2)
 //scene.add(axesHelper)
 
 // Create objects
 
+/* 
+const triangleGeometry = new THREE.BufferGeometry()
+
+const positionsArray = new Float32Array([
+    0, 0, 0,
+    1, 0, 0,
+    0, 1, 0
+])
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+triangleGeometry.setAttribute('position', positionsAttribute)
+
+const triangle = new THREE.Mesh(
+    triangleGeometry,
+    new THREE.MeshBasicMaterial({color: 0x442277})
+)    
+
+triangle.position.set(-3,0,0)
+
+group.add(triangle)
+*/
+
 const cube1 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    //new THREE.SphereGeometry(0.5,32,32),
+    new THREE.MeshBasicMaterial({ color: parameters.color, wireframe: false})
 )
-cube1.position.set(-1.5, 0, 0)
+cube1.position.set(-1, 0, 0)
 group.add(cube1)
+
+gui.add(cube1.material,'wireframe')
+
+gui
+    .addColor(parameters, 'color')
+    .onChange(() => {
+        cube1.material.color.set(parameters.color)
+    })
+
+gui.add(parameters, 'spin')
+
+
 
 const cube2 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 )
-cube2.position.set(1.5, 0, 0)
+cube2.position.set(1, 0, 0)
 group.add(cube2)
 
 const cube3 = new THREE.Mesh(
-    new THREE.BoxGeometry(0.5, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 0x0000ff })
+    new THREE.SphereGeometry(0.5,32,32),
+    new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
 )
 cube3.position.set(0, 0, 0)
 group.add(cube3)
 
-group.scale.set(0.5, 1.5, 1)
+cube2.scale.set(0.5, 1.5, 1)
+cube1.scale.set(0.5, 1.5, 1)
+
 group.rotateZ(Math.PI * 0.25)
 group.rotateY(Math.PI * 1)
 group.rotateX(Math.PI * 0.25)
 
 scene.add(group)
-
 
 const sizes = {
     width: window.innerWidth,
