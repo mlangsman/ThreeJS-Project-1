@@ -41,9 +41,50 @@ scene.add(group)
 
 
 const sizes = {
-    width: 800,
-    height: 600
+    width: window.innerWidth,
+    height: window.innerHeight
 }
+
+// Handle resizing the window
+window.addEventListener('resize', () => {
+    console.log("Window resized")
+
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width,sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
+})
+
+// Fullscreen functionality
+window.addEventListener('dblclick', () => {
+    console.log('Double click')
+
+    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+
+    if(!fullscreenElement) {
+        if(canvas.requestFullscreen) {
+            canvas.requestFullscreen() 
+        }
+        else if(canvas.webkitRequestFullscreen) {
+            canvas.webkitRequestFullscreen()
+        }
+    } else {
+        if(document.exitFullscreen) {
+            document.exitFullscreen()
+        }
+        else if(document.webkitExitFullscreen) {
+            document.webkitExitFullscreen()
+        }
+    }
+
+})
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -55,6 +96,11 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
+//controls.target.z = 2
+//controls.update()
+controls.enableDamping = true
+controls.autoRotate = true
+
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -92,7 +138,7 @@ window.addEventListener('mousemove', (event) => {
 
 const tick = () => {
 
-
+    controls.update()
     const elapsedTime = clock.getElapsedTime()
 
     // Rotate the group of cubes
