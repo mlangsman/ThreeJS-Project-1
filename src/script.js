@@ -37,7 +37,9 @@ image.src = '/door.jpg'
 */
 
 const textureLoader = new THREE.TextureLoader()
-const texture = textureLoader.load('/door.jpg')
+const texture = textureLoader.load('/Foliage_Lilypads_001_BaseColor.jpg')
+texture.minFilter = THREE.NearestFilter
+
 
 // Create objects
 
