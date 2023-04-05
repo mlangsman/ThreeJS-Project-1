@@ -25,30 +25,23 @@ const scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(2)
 //scene.add(axesHelper)
 
-// Create objects
+// Add textures
 
-/* 
-const triangleGeometry = new THREE.BufferGeometry()
-
-const positionsArray = new Float32Array([
-    0, 0, 0,
-    1, 0, 0,
-    0, 1, 0
-])
-
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
-triangleGeometry.setAttribute('position', positionsAttribute)
-
-const triangle = new THREE.Mesh(
-    triangleGeometry,
-    new THREE.MeshBasicMaterial({color: 0x442277})
-)    
-
-triangle.position.set(-3,0,0)
-
-group.add(triangle)
+/*
+const image = new Image()
+const texture = new THREE.Texture(image)
+image.addEventListener('load', () => {
+    texture.needsUpdate = true
+})
+image.src = '/door.jpg'
 */
 
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load('/door.jpg')
+
+// Create objects
+
+// Cube 1
 const cube1 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     //new THREE.SphereGeometry(0.5,32,32),
@@ -65,6 +58,7 @@ gui
         cube1.material.color.set(parameters.color1)
     })
 
+// Cube 2
 const cube2 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ color: parameters.color2 })
@@ -80,9 +74,10 @@ gui
 
 gui.add(parameters, 'spin')
 
+// Cube3
 const cube3 = new THREE.Mesh(
     new THREE.SphereGeometry(0.5,32,32),
-    new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
+    new THREE.MeshBasicMaterial({ map: texture, wireframe: false })
 )
 cube3.position.set(0, 0, 0)
 group.add(cube3)
@@ -90,12 +85,14 @@ group.add(cube3)
 cube2.scale.set(0.5, 1.5, 1)
 cube1.scale.set(0.5, 1.5, 1)
 
+
+// Configure Group
 group.rotateZ(Math.PI * 0.25)
 group.rotateY(Math.PI * 1)
 group.rotateX(Math.PI * 0.25)
-
 scene.add(group)
 
+// Canvas size
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
