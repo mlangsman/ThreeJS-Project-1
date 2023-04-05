@@ -7,7 +7,8 @@ import * as dat from 'lil-gui'
 const gui = new dat.GUI()
 
 const parameters = {
-    color: 0xff0000,
+    color1: 0xff0000,
+    color2: 0x00ff00,
     spin: () => {
         gsap.to(cube2.rotation, { duration: 1, y: cube2.rotation.y + Math.PI * 2 })
         gsap.to(cube1.rotation, { duration: 1, y: cube1.rotation.y - Math.PI * 2 })
@@ -51,7 +52,7 @@ group.add(triangle)
 const cube1 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     //new THREE.SphereGeometry(0.5,32,32),
-    new THREE.MeshBasicMaterial({ color: parameters.color, wireframe: false})
+    new THREE.MeshBasicMaterial({ color: parameters.color1, wireframe: false})
 )
 cube1.position.set(-1, 0, 0)
 group.add(cube1)
@@ -59,21 +60,25 @@ group.add(cube1)
 gui.add(cube1.material,'wireframe')
 
 gui
-    .addColor(parameters, 'color')
+    .addColor(parameters, 'color1')
     .onChange(() => {
-        cube1.material.color.set(parameters.color)
+        cube1.material.color.set(parameters.color1)
     })
-
-gui.add(parameters, 'spin')
-
-
 
 const cube2 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+    new THREE.MeshBasicMaterial({ color: parameters.color2 })
 )
 cube2.position.set(1, 0, 0)
 group.add(cube2)
+
+gui
+    .addColor(parameters, 'color2')
+    .onChange(() => {
+        cube2.material.color.set(parameters.color2)
+    })
+
+gui.add(parameters, 'spin')
 
 const cube3 = new THREE.Mesh(
     new THREE.SphereGeometry(0.5,32,32),
