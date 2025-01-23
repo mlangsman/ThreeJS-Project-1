@@ -1,4 +1,6 @@
-# Three.js Journey
+# ThreeJS Experiments
+
+A Playground for learning ThreeJS following the ThreeJS journey course.
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
